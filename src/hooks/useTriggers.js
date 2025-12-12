@@ -54,9 +54,10 @@ function normalizeTriggerDate(trigger) {
 
     return {
         ...trigger,
-        id: trigger.id || crypto.randomUUID(), // Ensure ID exists to prevent linked events bug
+        id: trigger.id || crypto.randomUUID(),
         start: newStart,
         end: newEnd,
-        recurrenceType: 'NONE' // Disable recurrence for generic day
+        recurrenceType: trigger.recurrenceType || 'DAILY', // Default to DAILY
+        dayOfWeek: trigger.dayOfWeek ?? null // 0-6 for WEEKLY, null otherwise
     };
 }

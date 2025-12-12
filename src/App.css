@@ -3,34 +3,25 @@
 :root {
   /* -- REPOWER MODERN PALETTE -- */
   --color-primary: #D31145; /* Repower Red */
-  --color-primary-soft: rgba(211, 17, 69, 0.08); /* Faint red for backgrounds */
-  --color-text-main: #1A1A1A; /* Black */
-  --color-text-secondary: #8E8E93; /* Soft Grey */
-  --color-bg-app: #FFFFFF;
-  --color-bg-panel: #F9FAFB; /* Very light grey for panels */
+  --color-daily: #D31145; /* Red for Daily */
+  --color-weekly: #2563EB; /* Blue for Weekly */
+  --color-custom: #7C3AED; /* Purple for Custom */
+  --color-text-main: #1A1A1A;
+  --color-text-secondary: #8E8E93;
+  --color-bg-app: #F5F5F7;
+  --color-bg-panel: #FFFFFF;
   
-  /* -- GRADIENTS -- */
-  --gradient-soft: linear-gradient(135deg, #FFFFFF 0%, #F4F4F4 100%);
-  --gradient-red: linear-gradient(135deg, #D31145 0%, #B00E3A 100%);
+  --shadow-card: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-hover: 0 8px 24px rgba(0,0,0,0.12);
   
-  /* -- SHADOWS -- */
-  --shadow-soft: 0 10px 30px -10px rgba(0,0,0,0.06);
-  --shadow-card: 0 4px 20px rgba(0,0,0,0.04);
-  --shadow-hover: 0 8px 25px rgba(211, 17, 69, 0.15);
-  
-  /* -- SHAPES -- */
-  --radius-xl: 24px; /* Big smart-home style corners */
   --radius-lg: 16px;
   --radius-md: 12px;
   
-  /* -- TYPOGRAPHY -- */
   --font-family: 'Poppins', sans-serif;
-  --header-height: 80px;
+  --header-height: 72px;
 }
 
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -42,234 +33,277 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Layout - Split View Full Screen */
+/* Layout */
 .app-container {
   width: 100vw;
   height: 100vh;
-  margin: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-/* -- HEADER -- */
+/* Header */
 .app-header {
   height: var(--header-height);
   background: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 2.5rem;
-  z-index: 10;
+  padding: 0 2rem;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
   flex-shrink: 0;
-  /* Minimal header, no heavy borders */
 }
 
 .logo-container {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .app-logo {
-    height: 48px;
+    height: 40px;
     width: auto;
 }
 
 .header-title {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: var(--color-text-main);
-    letter-spacing: -0.5px;
 }
 
 .add-button {
-  background: var(--gradient-red);
+  background: var(--color-primary);
   color: white;
   border: none;
-  padding: 0.8rem 2rem;
-  border-radius: 50px; /* Pill shape */
+  padding: 0.7rem 1.5rem;
+  border-radius: 50px;
   font-weight: 600;
-  font-family: var(--font-family);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(211, 17, 69, 0.3);
   transition: transform 0.2s, box-shadow 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 
 .add-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(211, 17, 69, 0.4);
+  box-shadow: 0 4px 12px rgba(211, 17, 69, 0.3);
 }
 
-/* -- MAIN CONTENT SPLIT -- */
+/* Main Content Split */
 .app-content {
   flex: 1;
   display: grid;
-  grid-template-columns: 1fr 420px; /* Wider details panel for "Smart Home" cards */
+  grid-template-columns: 1fr 380px;
   overflow: hidden;
 }
 
-/* -- CALENDAR LEFT -- */
-.calendar-section {
-    background: white;
-    padding: 1.5rem 2rem;
-    overflow-y: auto;
+/* Scheduler Section */
+.scheduler-section {
+    background: var(--color-bg-app);
+    padding: 1.5rem;
+    overflow: hidden;
 }
 
-/* -- DETAILS RIGHT -- */
+/* Details Panel */
 .details-panel {
-    background: var(--color-bg-panel);
-    border-left: 1px solid rgba(0,0,0,0.03);
-    padding: 2.5rem;
+    background: white;
+    padding: 2rem;
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    box-shadow: inset 10px 0 30px -20px rgba(0,0,0,0.05); /* Inner shadow for depth */
+    border-left: 1px solid rgba(0,0,0,0.05);
 }
 
-/* -- CALENDAR COMPONENT OVERRIDES -- */
-.rbc-calendar {
-  color: var(--color-text-main);
-  font-family: var(--font-family);
-}
-
-/* Events */
-.rbc-event {
-  background-color: rgba(211, 17, 69, 0.15) !important; /* Transparent Red */
-  color: var(--color-primary) !important; /* Red Text */
-  border: none !important;
-  border-left: 4px solid var(--color-primary) !important;
-  border-radius: 8px !important;
-  box-shadow: var(--shadow-card);
-  padding: 4px 8px !important;
-  transition: transform 0.15s ease;
-}
-
-.rbc-event:hover {
-    transform: scale(1.02);
-    box-shadow: var(--shadow-hover);
-    z-index: 5;
-    background-color: rgba(211, 17, 69, 0.25) !important; /* Darker on hover */
-}
-
-.rbc-event.rbc-selected {
-    background-color: rgba(211, 17, 69, 0.3) !important;
-    border-left: 4px solid #1A1A1A !important;
-}
-
-.rbc-event-label {
-    font-size: 0.75rem;
-    color: var(--color-primary); /* Red label */
-    opacity: 0.8;
-    margin-bottom: 2px;
-}
-
-/* -- CUSTOM EVENT RENDERING & ACTIONS -- */
-.custom-event-container {
+/* ========== CUSTOM SCHEDULER STYLES ========== */
+.scheduler-container {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    position: relative;
-    padding-right: 20px; /* Space for actions */
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
 }
 
-.event-content {
+.scheduler-header {
+    display: grid;
+    grid-template-columns: 50px 1fr 1fr 1fr;
+    background: #FAFAFA;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    flex-shrink: 0;
+}
+
+.time-column-header,
+.column-header {
+    padding: 0.75rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    color: var(--color-text-secondary);
+}
+
+.daily-header { color: var(--color-daily); }
+.weekly-header { color: var(--color-weekly); }
+.custom-header { color: var(--color-custom); }
+
+.scheduler-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 50px 1fr 1fr 1fr;
+    overflow: hidden; /* No scroll */
+}
+
+.time-column {
+    border-right: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.time-slot {
+    flex: 1; /* Distribute evenly */
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 2px;
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid rgba(0,0,0,0.03);
+}
+
+.trigger-column {
+    position: relative;
+    border-right: 1px solid rgba(0,0,0,0.03);
+    overflow: visible; /* Allow tooltip to show */
+}
+
+.column-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
     flex-direction: column;
     overflow: hidden;
 }
 
-.event-title {
-    font-size: 0.9rem;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.2;
+.hour-line {
+    flex: 1;
+    border-bottom: 1px solid rgba(0,0,0,0.03);
 }
 
-.event-meta {
-    font-size: 0.75rem;
-    color: var(--color-text-secondary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* Short Event (15 min) optimization */
-.short-event .event-title {
-    font-size: 0.85rem;
-    line-height: 1;
-}
-
-/* Event Actions (Hover Only) */
-.event-actions {
+.triggers-layer {
     position: absolute;
-    top: 50%;
-    right: -4px;
-    transform: translateY(-50%);
-    display: flex; /* Always layout, but hide opacity */
-    gap: 4px;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-    background: rgba(255,255,255,0.8);
-    backdrop-filter: blur(2px);
-    border-radius: 8px;
-    padding: 2px;
+    top: 0;
+    left: 4px;
+    right: 4px;
+    bottom: 0;
+    overflow: visible; /* Allow tooltip to show */
 }
 
-/* Show actions on hover of the PARENT rbc-event */
-.rbc-event:hover .event-actions {
-    opacity: 1;
-}
-
-.event-action-btn {
-    background: transparent;
-    border: none;
-    font-size: 1rem;
+/* Trigger Cards */
+.trigger-card {
+    position: absolute;
+    /* left and width set dynamically via style prop */
+    border-radius: 6px;
+    padding: 4px 6px;
     cursor: pointer;
-    padding: 4px;
-    border-radius: 4px;
+    transition: transform 0.15s, box-shadow 0.15s;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.7rem;
+    min-height: 18px;
+    box-sizing: border-box;
+}
+
+/* Tooltip on hover (with delay) */
+.trigger-card::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 8px;
+    background: #1A1A1A;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    white-space: pre-line;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease 0.5s, visibility 0.2s ease 0.5s; /* 0.5s delay */
+    pointer-events: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    min-width: 150px;
+}
+
+.trigger-card:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+.trigger-card:hover {
+    transform: translateX(2px);
+    box-shadow: var(--shadow-hover);
+    z-index: 10;
+}
+
+/* Compact card (short duration) */
+.compact-card {
+    justify-content: center;
+}
+
+.daily-card {
+    background: rgba(211, 17, 69, 0.12);
+    border-left: 3px solid var(--color-daily);
+    color: var(--color-daily);
+}
+
+.weekly-card {
+    background: rgba(37, 99, 235, 0.12);
+    border-left: 3px solid var(--color-weekly);
+    color: var(--color-weekly);
+}
+
+.custom-card {
+    background: rgba(124, 58, 237, 0.12);
+    border-left: 3px solid var(--color-custom);
+    color: var(--color-custom);
+}
+
+.card-content {
     display: flex;
     align-items: center;
-    justify-content: center;
-    color: #1A1A1A;
-    transition: background 0.2s, color 0.2s;
+    gap: 6px;
+    font-size: 0.65rem;
+    height: 100%;
+    overflow: hidden;
 }
 
-.event-action-btn:hover {
-    background: rgba(0,0,0,0.05);
+.day-badge {
+    background: var(--color-weekly);
+    color: white;
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-size: 0.55rem;
+    font-weight: 700;
+    flex-shrink: 0;
 }
 
-.delete-action:hover {
-    color: #D31145;
-    background: #FFF0F3;
+.card-time {
+    font-weight: 600;
+    opacity: 0.8;
+    flex-shrink: 0;
 }
 
-/* Grid Cleanup */
-.rbc-time-gutter .rbc-timeslot-group {
-    border: none;
-    font-size: 0.8rem;
-    color: var(--color-text-secondary);
-    font-weight: 500;
-}
-.rbc-day-slot .rbc-time-slot {
-    border-top: 1px solid rgba(0,0,0,0.03); /* Extremely light grid */
-}
-.rbc-time-content {
-    border: none;
-}
-.rbc-current-time-indicator {
-    background-color: var(--color-primary);
-    height: 2px;
-}
-
-/* Hide Navigation (Redundant but ensures safety) */
-.rbc-toolbar, .rbc-time-header {
-    display: none !important;
+.card-title {
+    font-weight: 600;
+    color: var(--color-text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

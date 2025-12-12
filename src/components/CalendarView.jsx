@@ -51,16 +51,14 @@ const CustomEvent = ({ event, onEdit, onDelete }) => {
                 <button 
                     className="event-action-btn edit-action" 
                     onClick={handleEditClick}
-                    title="Modifica"
                 >
-                    ✎
+                    Modifica
                 </button>
                 <button 
                     className="event-action-btn delete-action" 
                     onClick={handleDeleteClick}
-                    title="Elimina"
                 >
-                    🗑
+                    Elimina
                 </button>
             </div>
         </div>
@@ -125,6 +123,11 @@ const CalendarView = ({ triggers, onSelectTrigger, onUpdateTrigger, onEditTrigge
         // Strict View Config
         views={['day']}
         defaultView="day"
+        
+        // View Range Optimization (06:00 - 22:00)
+        min={new Date(0, 0, 0, 6, 0, 0)}
+        max={new Date(0, 0, 0, 22, 0, 0)}
+        scrollToTime={new Date(0, 0, 0, 8, 0, 0)}
         
         // Lock the date!
         date={GENERIC_DATE}
