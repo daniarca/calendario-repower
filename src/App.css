@@ -1,0 +1,275 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+  /* -- REPOWER MODERN PALETTE -- */
+  --color-primary: #D31145; /* Repower Red */
+  --color-primary-soft: rgba(211, 17, 69, 0.08); /* Faint red for backgrounds */
+  --color-text-main: #1A1A1A; /* Black */
+  --color-text-secondary: #8E8E93; /* Soft Grey */
+  --color-bg-app: #FFFFFF;
+  --color-bg-panel: #F9FAFB; /* Very light grey for panels */
+  
+  /* -- GRADIENTS -- */
+  --gradient-soft: linear-gradient(135deg, #FFFFFF 0%, #F4F4F4 100%);
+  --gradient-red: linear-gradient(135deg, #D31145 0%, #B00E3A 100%);
+  
+  /* -- SHADOWS -- */
+  --shadow-soft: 0 10px 30px -10px rgba(0,0,0,0.06);
+  --shadow-card: 0 4px 20px rgba(0,0,0,0.04);
+  --shadow-hover: 0 8px 25px rgba(211, 17, 69, 0.15);
+  
+  /* -- SHAPES -- */
+  --radius-xl: 24px; /* Big smart-home style corners */
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  
+  /* -- TYPOGRAPHY -- */
+  --font-family: 'Poppins', sans-serif;
+  --header-height: 80px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg-app);
+  color: var(--color-text-main);
+  font-family: var(--font-family);
+  overflow: hidden; 
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Layout - Split View Full Screen */
+.app-container {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* -- HEADER -- */
+.app-header {
+  height: var(--header-height);
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2.5rem;
+  z-index: 10;
+  flex-shrink: 0;
+  /* Minimal header, no heavy borders */
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.app-logo {
+    height: 48px;
+    width: auto;
+}
+
+.header-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    letter-spacing: -0.5px;
+}
+
+.add-button {
+  background: var(--gradient-red);
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 50px; /* Pill shape */
+  font-weight: 600;
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(211, 17, 69, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.add-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(211, 17, 69, 0.4);
+}
+
+/* -- MAIN CONTENT SPLIT -- */
+.app-content {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 420px; /* Wider details panel for "Smart Home" cards */
+  overflow: hidden;
+}
+
+/* -- CALENDAR LEFT -- */
+.calendar-section {
+    background: white;
+    padding: 1.5rem 2rem;
+    overflow-y: auto;
+}
+
+/* -- DETAILS RIGHT -- */
+.details-panel {
+    background: var(--color-bg-panel);
+    border-left: 1px solid rgba(0,0,0,0.03);
+    padding: 2.5rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    box-shadow: inset 10px 0 30px -20px rgba(0,0,0,0.05); /* Inner shadow for depth */
+}
+
+/* -- CALENDAR COMPONENT OVERRIDES -- */
+.rbc-calendar {
+  color: var(--color-text-main);
+  font-family: var(--font-family);
+}
+
+/* Events */
+.rbc-event {
+  background-color: rgba(211, 17, 69, 0.15) !important; /* Transparent Red */
+  color: var(--color-primary) !important; /* Red Text */
+  border: none !important;
+  border-left: 4px solid var(--color-primary) !important;
+  border-radius: 8px !important;
+  box-shadow: var(--shadow-card);
+  padding: 4px 8px !important;
+  transition: transform 0.15s ease;
+}
+
+.rbc-event:hover {
+    transform: scale(1.02);
+    box-shadow: var(--shadow-hover);
+    z-index: 5;
+    background-color: rgba(211, 17, 69, 0.25) !important; /* Darker on hover */
+}
+
+.rbc-event.rbc-selected {
+    background-color: rgba(211, 17, 69, 0.3) !important;
+    border-left: 4px solid #1A1A1A !important;
+}
+
+.rbc-event-label {
+    font-size: 0.75rem;
+    color: var(--color-primary); /* Red label */
+    opacity: 0.8;
+    margin-bottom: 2px;
+}
+
+/* -- CUSTOM EVENT RENDERING & ACTIONS -- */
+.custom-event-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    padding-right: 20px; /* Space for actions */
+}
+
+.event-content {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.event-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+}
+
+.event-meta {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Short Event (15 min) optimization */
+.short-event .event-title {
+    font-size: 0.85rem;
+    line-height: 1;
+}
+
+/* Event Actions (Hover Only) */
+.event-actions {
+    position: absolute;
+    top: 50%;
+    right: -4px;
+    transform: translateY(-50%);
+    display: flex; /* Always layout, but hide opacity */
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(2px);
+    border-radius: 8px;
+    padding: 2px;
+}
+
+/* Show actions on hover of the PARENT rbc-event */
+.rbc-event:hover .event-actions {
+    opacity: 1;
+}
+
+.event-action-btn {
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1A1A1A;
+    transition: background 0.2s, color 0.2s;
+}
+
+.event-action-btn:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+.delete-action:hover {
+    color: #D31145;
+    background: #FFF0F3;
+}
+
+/* Grid Cleanup */
+.rbc-time-gutter .rbc-timeslot-group {
+    border: none;
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+}
+.rbc-day-slot .rbc-time-slot {
+    border-top: 1px solid rgba(0,0,0,0.03); /* Extremely light grid */
+}
+.rbc-time-content {
+    border: none;
+}
+.rbc-current-time-indicator {
+    background-color: var(--color-primary);
+    height: 2px;
+}
+
+/* Hide Navigation (Redundant but ensures safety) */
+.rbc-toolbar, .rbc-time-header {
+    display: none !important;
+}
