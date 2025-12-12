@@ -35,7 +35,8 @@ export const useTriggers = () => {
     triggers,
     addTrigger,
     updateTrigger,
-    deleteTrigger
+    deleteTrigger,
+    setTriggers // For import functionality
   };
 };
 
