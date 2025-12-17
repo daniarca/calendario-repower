@@ -3,6 +3,8 @@ import { useTriggers } from './hooks/useTriggers';
 import SchedulerView from './components/SchedulerView';
 import DetailsPanel from './components/DetailsPanel';
 import TriggerForm from './components/TriggerForm';
+import { exportToExcel } from './utils/excelExport';
+import { Download, Upload, FileSpreadsheet, Plus, Search } from 'lucide-react';
 import repowerLogo from './assets/repower_italia-removebg-preview.png';
 import './App.css'; 
 
@@ -54,8 +56,8 @@ function App() {
     setEditingTrigger(null);
   };
 
-  // Export triggers to JSON file
-  const handleExport = () => {
+  // JSON Export
+  const handleExportJSON = () => {
     const dataStr = JSON.stringify(triggers, null, 2);
     const blob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -65,8 +67,13 @@ function App() {
     link.click();
     URL.revokeObjectURL(url);
   };
+  
+  // Excel Export
+  const handleExportExcel = () => {
+    exportToExcel(triggers);
+  };
 
-  // Import triggers from JSON file
+  // Import JSON
   const handleImport = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -94,14 +101,27 @@ function App() {
       <header className="app-header">
         <div className="logo-container">
             <img src={repowerLogo} alt="Repower Logo" className="app-logo" />
-            <span className="header-title">UiPath Scheduler</span>
+            <div style={{display: 'flex', flexDirection: 'column'}}>
+                <span className="header-title">Hello, Admin</span>
+                <span style={{fontSize: '0.8rem', color: '#8E8E9A'}}>You have {triggers.length} active schedules</span>
+            </div>
         </div>
+
+        <div className="header-search">
+            <Search size={18} />
+            <span>Search your schedules...</span>
+        </div>
+
         <div className="header-actions">
-            <button className="icon-button" onClick={handleExport} title="Esporta JSON">
-                📥 Esporta
+            <button className="icon-button" onClick={handleExportExcel} title="Export Excel">
+                <FileSpreadsheet size={20} />
             </button>
-            <button className="icon-button" onClick={() => fileInputRef.current?.click()} title="Importa JSON">
-                📤 Importa
+            <div style={{width: '1px', height: '20px', background: '#E5E5EA'}}></div>
+            <button className="icon-button" onClick={handleExportJSON} title="Backup JSON">
+                <Download size={20} />
+            </button>
+            <button className="icon-button" onClick={() => fileInputRef.current?.click()} title="Restore JSON">
+                <Upload size={20} />
             </button>
             <input 
                 type="file" 
@@ -110,8 +130,9 @@ function App() {
                 accept=".json" 
                 style={{ display: 'none' }} 
             />
-            <button className="add-button" onClick={handleAddClick}>
-                + Nuovo Flusso
+            <button className="add-button" onClick={handleAddClick} style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                <Plus size={18} />
+                Nuovo Flusso
             </button>
         </div>
       </header>

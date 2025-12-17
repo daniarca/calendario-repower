@@ -20,7 +20,8 @@ const TriggerForm = ({ onSave, onCancel, initialData }) => {
     durationMinutes: 60,
     userName: '',
     recurrenceType: 'DAILY',
-    dayOfWeek: 1 // Default to Monday
+    dayOfWeek: 1, // Default to Monday
+    dayOfMonth: 1 // Default to 1st
   });
 
   useEffect(() => {
@@ -46,6 +47,7 @@ const TriggerForm = ({ onSave, onCancel, initialData }) => {
             durationMinutes: duration,
             recurrenceType: initialData.recurrenceType || 'DAILY',
             dayOfWeek: initialData.dayOfWeek ?? 1,
+            dayOfMonth: initialData.dayOfMonth ?? 1,
         });
     }
   }, [initialData]);
@@ -78,7 +80,8 @@ const TriggerForm = ({ onSave, onCancel, initialData }) => {
         end,
         durationMinutes: duration,
         recurrenceType: formData.recurrenceType,
-        dayOfWeek: formData.recurrenceType === 'WEEKLY' ? parseInt(formData.dayOfWeek, 10) : null
+        dayOfWeek: formData.recurrenceType === 'WEEKLY' ? parseInt(formData.dayOfWeek, 10) : null,
+        dayOfMonth: formData.recurrenceType === 'MONTHLY' ? parseInt(formData.dayOfMonth, 10) : null
     };
 
     onSave(newTrigger);
@@ -132,6 +135,13 @@ const TriggerForm = ({ onSave, onCancel, initialData }) => {
                 </button>
                 <button 
                     type="button" 
+                    className={`recurrence-btn ${formData.recurrenceType === 'MONTHLY' ? 'active monthly' : ''}`}
+                    onClick={() => setFormData(prev => ({...prev, recurrenceType: 'MONTHLY'}))}
+                >
+                    Mensile
+                </button>
+                <button 
+                    type="button" 
                     className={`recurrence-btn ${formData.recurrenceType === 'CUSTOM' ? 'active custom' : ''}`}
                     onClick={() => setFormData(prev => ({...prev, recurrenceType: 'CUSTOM'}))}
                 >
@@ -151,6 +161,22 @@ const TriggerForm = ({ onSave, onCancel, initialData }) => {
                 >
                     {DAYS_OF_WEEK.map(day => (
                         <option key={day.value} value={day.value}>{day.label}</option>
+                    ))}
+                </select>
+              </div>
+          )}
+
+          {/* Day of Month (only for MONTHLY) */}
+          {formData.recurrenceType === 'MONTHLY' && (
+              <div className="form-group">
+                <label>Giorno del Mese</label>
+                <select 
+                    name="dayOfMonth" 
+                    value={formData.dayOfMonth} 
+                    onChange={handleChange}
+                >
+                    {Array.from({length: 31}, (_, i) => i + 1).map(day => (
+                        <option key={day} value={day}>{day}°</option>
                     ))}
                 </select>
               </div>

@@ -1,24 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
 :root {
-  /* -- REPOWER MODERN PALETTE -- */
-  --color-primary: #D31145; /* Repower Red */
-  --color-daily: #D31145; /* Red for Daily */
-  --color-weekly: #2563EB; /* Blue for Weekly */
-  --color-custom: #7C3AED; /* Purple for Custom */
-  --color-text-main: #1A1A1A;
-  --color-text-secondary: #8E8E93;
-  --color-bg-app: #F5F5F7;
-  --color-bg-panel: #FFFFFF;
+  /* -- FLAVORFIT INSPIRED PALETTE -- */
+  --color-primary: #D31145; /* Retaining Repower Core Red */
+  --color-accent-blue: #2563EB;
+  --color-accent-purple: #7C3AED; 
   
-  --shadow-card: 0 2px 8px rgba(0,0,0,0.08);
-  --shadow-hover: 0 8px 24px rgba(0,0,0,0.12);
+  --color-text-main: #1F1F27; /* Softer Black */
+  --color-text-secondary: #8E8E9A;
   
-  --radius-lg: 16px;
-  --radius-md: 12px;
+  /* Backgrounds */
+  --color-bg-body: #9F85FF; /* Vibrant Purple Background from refined visual */
+  --color-bg-dashboard: #F7F7F9; /* Off-white dashboard bg */
+  --color-bg-card: #FFFFFF;
+  
+  /* Shadows - Grandi, morbide, diffuse */
+  --shadow-sm: 0 4px 12px rgba(0,0,0,0.03);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.06);
+  --shadow-lg: 0 20px 50px rgba(0,0,0,0.1);
+  --shadow-floating: 0 25px 60px rgba(0,0,0,0.15);
+  
+  /* Radius */
+  --radius-xl: 32px; /* Outer Container */
+  --radius-lg: 24px; /* Sections */
+  --radius-md: 16px; /* Cards */
+  --radius-sm: 12px; /* Buttons */
   
   --font-family: 'Poppins', sans-serif;
-  --header-height: 72px;
+  --header-height: 80px;
 }
 
 * { box-sizing: border-box; }
@@ -26,20 +35,30 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--color-bg-app);
+  background-color: var(--color-bg-body);
+  /* Optional gradient overlay if desired */
+  background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
   color: var(--color-text-main);
   font-family: var(--font-family);
   overflow: hidden; 
   -webkit-font-smoothing: antialiased;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Layout */
+/* Layout - Floating Dashboard Concept */
 .app-container {
-  width: 100vw;
-  height: 100vh;
+  width: 96vw;
+  height: 94vh;
+  background: var(--color-bg-dashboard);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-floating);
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: relative;
 }
 
 /* Header */
@@ -114,23 +133,121 @@ body {
 .app-content {
   flex: 1;
   display: grid;
-  grid-template-columns: 1fr 380px;
+  grid-template-columns: 1fr 400px; /* Slightly wider details panel */
   overflow: hidden;
+  padding: 1.5rem;
+  gap: 1.5rem;
 }
 
-/* Scheduler Section */
-.scheduler-section {
-    background: var(--color-bg-app);
-    padding: 1.5rem;
-    overflow: hidden;
+/* Header Redesign */
+.app-header {
+  height: 90px;
+  background: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2.5rem;
+  border-bottom: none;
+  flex-shrink: 0;
 }
 
-/* Details Panel */
-.details-panel {
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.app-logo {
+    height: 130px;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+}
+
+.header-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    letter-spacing: -0.5px;
+}
+
+/* Fake Search Bar for aesthetics */
+.header-search {
     background: white;
-    padding: 2rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    width: 300px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-text-secondary);
+    box-shadow: var(--shadow-sm);
+    font-size: 0.9rem;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: white;
+    padding: 0.5rem;
+    padding-right: 0.6rem;
+    border-radius: 50px;
+    box-shadow: var(--shadow-sm);
+}
+
+.add-button {
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.8rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 15px rgba(211, 17, 69, 0.4);
+}
+
+.add-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(211, 17, 69, 0.5);
+}
+
+.icon-button {
+    background: transparent;
+    border: none;
+    padding: 0.6rem;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--color-text-secondary);
+}
+
+.icon-button:hover {
+    background: #F0F0F0;
+    color: var(--color-text-main);
+}
+
+/* Scheduler Section Redesign */
+.scheduler-section {
+    background: white;
+    padding: 0; 
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Details Panel Redesign container */
+.details-panel {
+    background: transparent; /* Now separate widgets */
+    padding: 0;
     overflow-y: auto;
-    border-left: 1px solid rgba(0,0,0,0.05);
+    border-left: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 /* ========== CUSTOM SCHEDULER STYLES ========== */
@@ -139,38 +256,68 @@ body {
     display: flex;
     flex-direction: column;
     background: white;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
+    border-radius: var(--radius-lg); /* Inherit or match */
+    box-shadow: none; /* Removed inner shadow */
     overflow: hidden;
 }
 
 .scheduler-header {
     display: grid;
-    grid-template-columns: 50px 1fr 1fr 1fr;
-    background: #FAFAFA;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
+    grid-template-columns: 60px 1fr 1fr 1fr 1fr;
+    background: white;
+    padding: 1rem 0;
+    border-bottom: 2px solid #F5F5F7;
     flex-shrink: 0;
+    align-items: center;
 }
 
-.time-column-header,
 .column-header {
-    padding: 0.75rem;
-    font-size: 0.7rem;
+    background: #FAFAFA;
+    margin: 0 10px;
+    padding: 0.8rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     text-align: center;
     color: var(--color-text-secondary);
 }
 
-.daily-header { color: var(--color-daily); }
-.weekly-header { color: var(--color-weekly); }
-.custom-header { color: var(--color-custom); }
+.day-badge {
+    display: inline-block;
+    background: rgba(0,0,0,0.12);
+    color: #333;
+    padding: 1px 4px;
+    border-radius: 4px;
+    font-size: 0.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 1px;
+    line-height: 1.2;
+}
+
+.daily-header { 
+    background: rgba(211, 17, 69, 0.08); 
+    color: var(--color-primary);
+}
+.weekly-header { 
+    background: rgba(37, 99, 235, 0.08); 
+    color: var(--color-accent-blue);
+}
+.monthly-header { 
+    background: rgba(249, 115, 22, 0.08); 
+    color: #F97316;
+}
+.custom-header { 
+    background: rgba(124, 58, 237, 0.08); 
+    color: var(--color-accent-purple);
+}
 
 .scheduler-body {
     flex: 1;
     display: grid;
-    grid-template-columns: 50px 1fr 1fr 1fr;
+    grid-template-columns: 50px 1fr 1fr 1fr 1fr;
     overflow: hidden; /* No scroll */
 }
 
@@ -223,109 +370,300 @@ body {
     overflow: visible; /* Allow tooltip to show */
 }
 
-/* Trigger Cards */
-.trigger-card {
-    position: absolute;
-    /* left and width set dynamically via style prop */
-    border-radius: 6px;
-    padding: 4px 6px;
-    cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    font-size: 0.7rem;
-    min-height: 18px;
-    box-sizing: border-box;
+/* ========== DETAILS PANEL WIDGETS ========== */
+.trigger-header {
+    margin-bottom: 2rem;
 }
 
-/* Tooltip on hover (with delay) */
+.trigger-subtitle {
+    font-size: 0.75rem;
+    color: var(--color-primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.5rem;
+}
+
+.trigger-title {
+    margin: 0;
+    font-size: 2rem;
+    line-height: 1.1;
+    font-weight: 800; /* Extra bold */
+    color: var(--color-text-main);
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: auto;
+}
+
+.info-card {
+    background: white;
+    border-radius: 24px; /* Super rounded */
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s;
+    border: 1px solid rgba(0,0,0,0.02);
+}
+
+.info-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.wide-card {
+    grid-column: span 2;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    background: #F5F5F7;
+}
+
+.wide-card .card-icon {
+    margin-bottom: 0;
+    margin-right: 1rem;
+}
+
+.card-label {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+}
+
+.card-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    overflow: hidden;
+    height: 100%;
+    justify-content: flex-start;
+}
+
+.card-time {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.7rem; 
+    line-height: 1.2;
+    margin-bottom: 2px;
+    letter-spacing: -0.01em;
+}
+
+.card-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.7rem;
+    color: var(--color-text-main);
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* For compact cards, make text even smaller */
+.compact-card .card-time {
+    font-size: 0.55rem;
+}
+
+.compact-card .card-title {
+    font-size: 0.5rem;
+}
+
+/* Featured Widget (Time) */
+.highlight-card {
+    background: linear-gradient(135deg, var(--color-primary) 0%, #FF4D7D 100%);
+    color: white;
+    grid-column: span 2; /* Make time full width for impact */
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.highlight-card .card-icon {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    margin-bottom: 0;
+    margin-right: 1.5rem;
+}
+
+.highlight-card .card-content-wrapper {
+    flex: 1;
+}
+
+.highlight-card .card-label, 
+.highlight-card .card-value-big, 
+.highlight-card .card-sub,
+.highlight-card .unit,
+.highlight-card .card-value {
+    color: white;
+}
+
+.highlight-card .card-label { opacity: 0.8; }
+
+.panel-actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.action-btn {
+    flex: 1;
+    padding: 1rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+
+.edit-btn {
+    background: #1F1F27;
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+.edit-btn:hover {
+    background: #3E3E4A;
+    transform: translateY(-2px);
+}
+
+.delete-btn {
+    background: white;
+    color: var(--color-primary);
+    border: 1px solid rgba(211, 17, 69, 0.1);
+}
+.delete-btn:hover {
+    background: #FFF0F3;
+}
+
+/* Empty State */
+.details-empty {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    text-align: center;
+}
+
+/* ========== SCHEDULER TRIGGER CARDS ========== */
+.trigger-card {
+    position: absolute;
+    border-radius: 8px;
+    padding: 2px 6px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 0.7rem;
+    min-height: 38px;
+    box-sizing: border-box;
+    border-left-width: 4px;
+    border-left-style: solid;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    background: white;
+    z-index: 10;
+}
+
+.trigger-card.narrow-card {
+    padding: 2px 4px;
+}
+
+.trigger-card.narrow-card .card-title {
+    max-width: 100%;
+}
+
+.trigger-card:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    z-index: 9999 !important; /* Force on top of everything */
+}
+
 .trigger-card::after {
     content: attr(data-tooltip);
     position: absolute;
-    left: 100%;
+    left: 100%; /* Push completely to the right */
     top: 50%;
-    transform: translateY(-50%);
-    margin-left: 8px;
-    background: #1A1A1A;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-size: 0.7rem;
+    transform: translateY(-50%) translateX(10px);
+    background: #FFFFFF; /* Solid white */
+    color: var(--color-text-main);
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-family: 'Poppins', sans-serif;
     font-weight: 500;
-    white-space: pre-line;
-    z-index: 100;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    z-index: 10000;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.2s ease 0.5s, visibility 0.2s ease 0.5s; /* 0.5s delay */
+    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 
+        0 4px 12px rgba(0,0,0,0.1),
+        0 0 0 1px rgba(0,0,0,0.05); /* Subtle border */
+    min-width: 200px;
     pointer-events: none;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    min-width: 150px;
+    border-left: 4px solid var(--color-primary); 
 }
 
 .trigger-card:hover::after {
     opacity: 1;
     visibility: visible;
-}
-
-.trigger-card:hover {
-    transform: translateX(2px);
-    box-shadow: var(--shadow-hover);
-    z-index: 10;
-}
-
-/* Compact card (short duration) */
-.compact-card {
-    justify-content: center;
-}
-
-.daily-card {
-    background: rgba(211, 17, 69, 0.12);
-    border-left: 3px solid var(--color-daily);
-    color: var(--color-daily);
-}
-
-.weekly-card {
-    background: rgba(37, 99, 235, 0.12);
-    border-left: 3px solid var(--color-weekly);
-    color: var(--color-weekly);
-}
-
-.custom-card {
-    background: rgba(124, 58, 237, 0.12);
-    border-left: 3px solid var(--color-custom);
-    color: var(--color-custom);
-}
-
-.card-content {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.65rem;
-    height: 100%;
-    overflow: hidden;
+    transform: translateY(-50%) translateX(12px);
+    left: 100%;
 }
 
 .day-badge {
-    background: var(--color-weekly);
-    color: white;
-    padding: 1px 4px;
-    border-radius: 3px;
-    font-size: 0.55rem;
+    background: rgba(255,255,255,0.9);
+    color: var(--color-text-main);
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 0.6rem;
     font-weight: 700;
     flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    font-family: 'Poppins', sans-serif;
 }
 
-.card-time {
-    font-weight: 600;
-    opacity: 0.8;
-    flex-shrink: 0;
+.ghost-card {
+    position: absolute;
+    background: rgba(31, 31, 39, 0.6);
+    border: 2px dashed rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    z-index: 50;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    backdrop-filter: blur(4px);
 }
+/* End of file */
 
-.card-title {
-    font-weight: 600;
-    color: var(--color-text-main);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+

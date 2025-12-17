@@ -59,6 +59,7 @@ function normalizeTriggerDate(trigger) {
         start: newStart,
         end: newEnd,
         recurrenceType: trigger.recurrenceType || 'DAILY', // Default to DAILY
-        dayOfWeek: trigger.dayOfWeek ?? null // 0-6 for WEEKLY, null otherwise
+        dayOfWeek: trigger.dayOfWeek ?? null, // 0-6 for WEEKLY, null otherwise
+        dayOfMonth: trigger.dayOfMonth ?? null // 1-31 for MONTHLY, null otherwise
     };
 }
