@@ -255,13 +255,15 @@ const TriggerCard = ({ trigger, colorClass }) => {
                 onDragStart={(e) => handleDragStart(e, trigger)}
             >
                 <div className="card-content">
-                    {trigger.recurrenceType === 'WEEKLY' && (
-                        <span className="day-badge">{DAY_LABELS[trigger.dayOfWeek]}</span>
-                    )}
-                    {trigger.recurrenceType === 'MONTHLY' && trigger.dayOfMonth && (
-                        <span className="day-badge monthly-badge">{trigger.dayOfMonth}°</span>
-                    )}
-                    <span className="card-title">{trigger.title}</span>
+                    <div className="card-header-row">
+                        {trigger.recurrenceType === 'WEEKLY' && (
+                            <span className="day-badge">{DAY_LABELS[trigger.dayOfWeek]}</span>
+                        )}
+                        {trigger.recurrenceType === 'MONTHLY' && trigger.dayOfMonth && (
+                            <span className="day-badge monthly-badge">{trigger.dayOfMonth}°</span>
+                        )}
+                        <span className="card-title">{trigger.title}</span>
+                    </div>
                     <span className="card-time" style={{ color: recurrenceColors.border }}>{timeStr}</span>
                 </div>
             </div>
