@@ -18,7 +18,7 @@ const RECURRENCE_COLORS = {
 // Detect overlapping triggers and assign slot positions
 const calculateOverlapLayout = (triggers) => {
     if (!triggers.length) return [];
-    
+
     // VISUAL_BLOCK_DURATION: Minimum time visual block forces collision
     // Forces side-by-side layout for anything overlapping within ~60 mins 
     // to allow for min-height: 40px cards without overlap
@@ -27,21 +27,21 @@ const calculateOverlapLayout = (triggers) => {
     const sorted = [...triggers].sort((a, b) => new Date(a.start) - new Date(b.start));
     const columns = [];
     const result = [];
-    
+
     for (const trigger of sorted) {
         const startTime = new Date(trigger.start).getTime();
         const trueEndTime = new Date(trigger.end).getTime();
         // Use visual end time for layout collision detection
         const visualEndTime = Math.max(trueEndTime, startTime + VISUAL_MIN_MS);
-        
+
         let slotIndex = 0;
         // Find first column where this trigger fits (using visual end time of used slot)
         while (slotIndex < columns.length && columns[slotIndex] > startTime) {
             slotIndex++;
         }
-        
+
         columns[slotIndex] = visualEndTime;
-        
+
         result.push({
             ...trigger,
             slotIndex,
@@ -50,20 +50,20 @@ const calculateOverlapLayout = (triggers) => {
             _visualEnd: visualEndTime
         });
     }
-    
+
     return result.map(trigger => {
         const myStart = trigger._visualStart;
         const myEnd = trigger._visualEnd;
-        
+
         // Calculate concurrency based on visual overlaps
         const concurrent = result.filter(t => {
             const tStart = t._visualStart;
             const tEnd = t._visualEnd;
             return !(tEnd <= myStart || tStart >= myEnd);
         });
-        
+
         const maxSlot = Math.max(...concurrent.map(t => t.slotIndex)) + 1;
-        
+
         return { ...trigger, totalSlots: maxSlot };
     });
 };
@@ -99,7 +99,7 @@ const SchedulerView = ({ triggers, onSelectTrigger, onEditTrigger, onDeleteTrigg
         e.dataTransfer.setData('triggerId', trigger.id);
         e.dataTransfer.effectAllowed = 'move';
         draggedTriggerRef.current = trigger;
-        
+
         // Hide original element slightly to show it's being moved (optional, but ghost handles visual)
         // e.target.style.opacity = '0.5'; 
     }, []);
@@ -110,11 +110,11 @@ const SchedulerView = ({ triggers, onSelectTrigger, onEditTrigger, onDeleteTrigg
 
         const rect = e.currentTarget.getBoundingClientRect();
         const y = e.clientY - rect.top;
-        
+
         // Snap calculation
         const totalMinutes = Math.round((y / rect.height) * 1440);
         const snapedMinutes = Math.round(totalMinutes / 15) * 15; // Round to 15min
-        
+
         // Boundaries
         if (snapedMinutes < 0) return;
         if (snapedMinutes > 1440) return;
@@ -122,7 +122,7 @@ const SchedulerView = ({ triggers, onSelectTrigger, onEditTrigger, onDeleteTrigg
         const hours = Math.floor(snapedMinutes / 60);
         const minutes = snapedMinutes % 60;
         const timeStr = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-        
+
         const duration = draggedTriggerRef.current?.durationMinutes || 15;
         const heightPercent = Math.max((duration / 1440) * 100, 2.5);
         const topPercent = (snapedMinutes / 1440) * 100;
@@ -130,11 +130,11 @@ const SchedulerView = ({ triggers, onSelectTrigger, onEditTrigger, onDeleteTrigg
         // Calculate overlaps for positioning - determine which slot this would occupy
         // Get all triggers in the target column (excluding the one being dragged)
         const targetRecurrence = columnClass.replace('-column', '').toUpperCase();
-        const colTriggers = triggers.filter(t => 
-            t.recurrenceType === targetRecurrence && 
+        const colTriggers = triggers.filter(t =>
+            t.recurrenceType === targetRecurrence &&
             t.id !== draggedTriggerRef.current?.id
         );
-        
+
         // Create a temporary trigger for the preview position
         const tempTrigger = {
             start: new Date('2024-01-01'),
@@ -142,7 +142,7 @@ const SchedulerView = ({ triggers, onSelectTrigger, onEditTrigger, onDeleteTrigg
         };
         tempTrigger.start.setHours(hours, minutes, 0, 0);
         const tempEnd = new Date(tempTrigger.start.getTime() + duration * 60000);
-        
+
         // Find overlapping triggers
         const overlapping = colTriggers.filter(existing => {
             const existStart = new Date(existing.start).getTime();
@@ -151,14 +151,14 @@ const SchedulerView = ({ triggers, onSelectTrigger, onEditTrigger, onDeleteTrigg
             const tempEndTime = tempEnd.getTime();
             return !(existEnd <= tempStart || existStart >= tempEndTime);
         });
-        
+
         // Calculate slot position
         let slotIndex = 0;
         const occupiedSlots = overlapping.map(t => t.slotIndex || 0);
         while (occupiedSlots.includes(slotIndex)) {
             slotIndex++;
         }
-        
+
         const totalSlots = Math.max(slotIndex + 1, ...overlapping.map(t => t.totalSlots || 1));
         const widthPercent = 100 / totalSlots;
         const leftPercent = slotIndex * widthPercent;
@@ -188,7 +188,7 @@ const SchedulerView = ({ triggers, onSelectTrigger, onEditTrigger, onDeleteTrigg
         const rect = columnElement.getBoundingClientRect();
         const y = e.clientY - rect.top;
         const percentY = (y / rect.height) * 100;
-        
+
         // Convert to time (percentage of 24h)
         const totalMinutes = Math.round((percentY / 100) * 1440);
         const hours = Math.floor(totalMinutes / 60);
@@ -199,7 +199,7 @@ const SchedulerView = ({ triggers, onSelectTrigger, onEditTrigger, onDeleteTrigg
 
         const newStart = new Date(trigger.start); // Keep date components
         newStart.setHours(hours, minutes, 0, 0);
-        
+
         // Logic to clear day if dropped in a different column? 
         // For simplicity we assume drag-drop just changes time for now, 
         // unless we want to allow changing recurrence type via drag (complex).
@@ -215,30 +215,31 @@ const SchedulerView = ({ triggers, onSelectTrigger, onEditTrigger, onDeleteTrigg
         return RECURRENCE_COLORS[recurrenceType] || RECURRENCE_COLORS['CUSTOM'];
     };
 
-const TriggerCard = ({ trigger, colorClass }) => {
+    const TriggerCard = ({ trigger, colorClass }) => {
         const compact = isCompact(trigger);
         const timeStr = new Date(trigger.start).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
-        
+
         // Clean tooltip content
         const serverInfo = trigger.server ? `\n🖥️ ${trigger.server}` : '';
         const durationInfo = `⏱️ ${trigger.durationMinutes || 15} min`;
-        const recurrenceInfo = trigger.recurrenceType !== 'CUSTOM' ? `\n🔄 ${trigger.recurrenceType}` : '';
-        
+        const recurrenceLabels = { 'DAILY': 'GIORNALIERO', 'WEEKLY': 'SETTIMANALE', 'MONTHLY': 'MENSILE', 'CUSTOM': 'PERSONALIZZATO' };
+        const recurrenceInfo = trigger.recurrenceType !== 'CUSTOM' ? `\n🔄 ${recurrenceLabels[trigger.recurrenceType] || trigger.recurrenceType}` : '';
+
         const tooltipText = `${trigger.title}\n${timeStr} • ${durationInfo}${serverInfo}${recurrenceInfo}`;
-        
+
         const widthPercent = 100 / trigger.totalSlots;
         const leftPercent = trigger.slotIndex * widthPercent;
         const recurrenceColors = getRecurrenceColors(trigger.recurrenceType);
-        
+
         // Calculate z-index based on start time
         const startMinutes = new Date(trigger.start).getHours() * 60 + new Date(trigger.start).getMinutes();
         const zIndex = 10 + Math.floor(startMinutes / 15);
 
         // Check if card is narrow (shared slot)
         const isNarrow = trigger.totalSlots > 1;
-        
+
         return (
-            <div 
+            <div
                 className={`trigger-card ${compact ? 'compact-card' : ''} ${isNarrow ? 'narrow-card' : ''}`}
                 style={{
                     top: `${getTopPercent(trigger)}%`,
@@ -271,7 +272,7 @@ const TriggerCard = ({ trigger, colorClass }) => {
     };
 
     const renderColumn = (columnData, colorClass) => (
-        <div 
+        <div
             className={`trigger-column ${colorClass}`}
             onDragOver={(e) => handleDragOver(e, colorClass)}
             onDragLeave={handleDragLeave}
@@ -280,7 +281,7 @@ const TriggerCard = ({ trigger, colorClass }) => {
             <div className="column-background">
                 {HOURS.map(hour => <div key={hour} className="hour-line" />)}
             </div>
-            
+
             <div className="triggers-layer">
                 {columnData.map(trigger => (
                     <TriggerCard key={trigger.id} trigger={trigger} colorClass={colorClass} />
@@ -288,7 +289,7 @@ const TriggerCard = ({ trigger, colorClass }) => {
 
                 {/* Ghost Preview */}
                 {dragPreview && dragPreview.column === colorClass && (
-                    <div 
+                    <div
                         className="ghost-card"
                         style={{
                             top: `${dragPreview.top}%`,
@@ -311,7 +312,7 @@ const TriggerCard = ({ trigger, colorClass }) => {
                 <div className="column-header daily-header">GIORNALIERO</div>
                 <div className="column-header weekly-header">SETTIMANALE</div>
                 <div className="column-header monthly-header">MENSILE</div>
-                <div className="column-header custom-header">CUSTOM</div>
+                <div className="column-header custom-header">PERSONALIZZATO</div>
             </div>
 
             <div className="scheduler-body">

@@ -6,7 +6,7 @@ import TriggerForm from './components/TriggerForm';
 import { exportToExcel } from './utils/excelExport';
 import { Download, Upload, FileSpreadsheet, Plus, Search } from 'lucide-react';
 import repowerLogo from './assets/repower_italia-removebg-preview.png';
-import './App.css'; 
+import './App.css';
 
 function App() {
   const { triggers, addTrigger, updateTrigger, deleteTrigger, setTriggers } = useTriggers();
@@ -31,10 +31,10 @@ function App() {
 
   const handleDeleteRequest = (trigger) => {
     if (window.confirm(`Eliminare "${trigger.title}"?`)) {
-        deleteTrigger(trigger.id);
-        if (selectedTrigger?.id === trigger.id) {
-            setSelectedTrigger(null);
-        }
+      deleteTrigger(trigger.id);
+      if (selectedTrigger?.id === trigger.id) {
+        setSelectedTrigger(null);
+      }
     }
   };
 
@@ -42,7 +42,7 @@ function App() {
     if (editingTrigger) {
       updateTrigger(editingTrigger.id, triggerData);
       if (selectedTrigger?.id === editingTrigger.id) {
-        setSelectedTrigger({...selectedTrigger, ...triggerData});
+        setSelectedTrigger({ ...selectedTrigger, ...triggerData });
       }
     } else {
       addTrigger(triggerData);
@@ -63,11 +63,11 @@ function App() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `repower-triggers-${new Date().toISOString().slice(0,10)}.json`;
+    link.download = `repower-triggers-${new Date().toISOString().slice(0, 10)}.json`;
     link.click();
     URL.revokeObjectURL(url);
   };
-  
+
   // Excel Export
   const handleExportExcel = () => {
     exportToExcel(triggers);
@@ -100,66 +100,66 @@ function App() {
     <div className="app-container">
       <header className="app-header">
         <div className="logo-container">
-            <img src={repowerLogo} alt="Repower Logo" className="app-logo" />
-            <div style={{display: 'flex', flexDirection: 'column'}}>
-                <span className="header-title">Hello, Admin</span>
-                <span style={{fontSize: '0.8rem', color: '#8E8E9A'}}>You have {triggers.length} active schedules</span>
-            </div>
+          <img src={repowerLogo} alt="Repower Logo" className="app-logo" />
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <span className="header-title">Ciao, Daniele</span>
+            <span style={{ fontSize: '0.8rem', color: '#8E8E9A' }}>Hai {triggers.length} pianificazioni attive</span>
+          </div>
         </div>
 
         <div className="header-search">
-            <Search size={18} />
-            <span>Search your schedules...</span>
+          <Search size={18} />
+          <span>Cerca tra le tue pianificazioni...</span>
         </div>
 
         <div className="header-actions">
-            <button className="icon-button" onClick={handleExportExcel} title="Export Excel">
-                <FileSpreadsheet size={20} />
-            </button>
-            <div style={{width: '1px', height: '20px', background: '#E5E5EA'}}></div>
-            <button className="icon-button" onClick={handleExportJSON} title="Backup JSON">
-                <Download size={20} />
-            </button>
-            <button className="icon-button" onClick={() => fileInputRef.current?.click()} title="Restore JSON">
-                <Upload size={20} />
-            </button>
-            <input 
-                type="file" 
-                ref={fileInputRef} 
-                onChange={handleImport} 
-                accept=".json" 
-                style={{ display: 'none' }} 
-            />
-            <button className="add-button" onClick={handleAddClick} style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                <Plus size={18} />
-                Nuovo Flusso
-            </button>
+          <button className="icon-button" onClick={handleExportExcel} title="Esporta in Excel">
+            <FileSpreadsheet size={20} />
+          </button>
+          <div style={{ width: '1px', height: '20px', background: '#E5E5EA' }}></div>
+          <button className="icon-button" onClick={handleExportJSON} title="Backup JSON">
+            <Download size={20} />
+          </button>
+          <button className="icon-button" onClick={() => fileInputRef.current?.click()} title="Ripristina JSON">
+            <Upload size={20} />
+          </button>
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleImport}
+            accept=".json"
+            style={{ display: 'none' }}
+          />
+          <button className="add-button" onClick={handleAddClick} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Plus size={18} />
+            Nuovo Flusso
+          </button>
         </div>
       </header>
-      
+
       <main className="app-content">
         <div className="scheduler-section">
-            <SchedulerView 
-                triggers={triggers} 
-                onSelectTrigger={handleSelectTrigger}
-                onEditTrigger={handleEditRequest}
-                onDeleteTrigger={handleDeleteRequest}
-                onUpdateTrigger={updateTrigger}
-            />
+          <SchedulerView
+            triggers={triggers}
+            onSelectTrigger={handleSelectTrigger}
+            onEditTrigger={handleEditRequest}
+            onDeleteTrigger={handleDeleteRequest}
+            onUpdateTrigger={updateTrigger}
+          />
         </div>
-        
+
         <div className="details-panel">
-            <DetailsPanel 
-                trigger={selectedTrigger}
-                onEdit={handleEditRequest}
-                onDelete={handleDeleteRequest}
-            />
+          <DetailsPanel
+            trigger={selectedTrigger}
+            onEdit={handleEditRequest}
+            onDelete={handleDeleteRequest}
+          />
         </div>
       </main>
 
       {isFormOpen && (
-        <TriggerForm 
-          onSave={handleSave} 
+        <TriggerForm
+          onSave={handleSave}
           onCancel={handleCancel}
           initialData={editingTrigger}
         />
